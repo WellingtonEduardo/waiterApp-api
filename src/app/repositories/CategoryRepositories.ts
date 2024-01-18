@@ -1,3 +1,4 @@
+import { Category } from '../models/Category';
 
 
 
@@ -5,7 +6,8 @@
 class Repositories {
 
   async findAll() {
-    return 'ok';
+    const categories = await Category.find();
+    return categories;
   }
 
   async create() {

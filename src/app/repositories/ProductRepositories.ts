@@ -1,11 +1,10 @@
-
-
-
+import { Product } from '../models/Product';
 
 class Repositories {
 
   async findAll() {
-    return 'ok';
+    const products =  await Product.find();
+    return products;
   }
 
   async findByCategoryId() {

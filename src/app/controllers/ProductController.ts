@@ -6,11 +6,13 @@ import { ProductRepositories } from '../repositories/ProductRepositories';
 class Controller {
 
   async index(req: Request , res: Response) {
-    return await ProductRepositories.findAll();
+    const products = await ProductRepositories.findAll();
+    return res.json(products);
   }
 
   async show(req: Request , res: Response) {
-    return await ProductRepositories.findByCategoryId();
+    await ProductRepositories.findByCategoryId();
+    res.send(req.params.categoryId);
   }
 
   async store(req: Request , res: Response) {

@@ -1,8 +1,10 @@
+import { Order } from '../models/Order';
 
 class Repositories {
 
   async findAll() {
-    return 'ok';
+    const orders = await Order.find();
+    return orders;
   }
 
   async create() {

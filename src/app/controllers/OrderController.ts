@@ -6,7 +6,8 @@ import { OrderRepositories } from '../repositories/OrderRepositories';
 class Controller {
 
   async index(req: Request , res: Response) {
-    return await OrderRepositories.findAll();
+    const orders = await OrderRepositories.findAll();
+    return res.json(orders);
   }
 
   async store(req: Request , res: Response) {
