@@ -10,8 +10,9 @@ class Repositories {
     return categories;
   }
 
-  async create() {
-    return 'ok';
+  async create({icon,name}:{icon: string, name: string}) {
+    const category = await Category.create({icon,name});
+    return category;
   }
 
 }

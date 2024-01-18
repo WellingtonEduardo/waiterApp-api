@@ -11,8 +11,12 @@ class Controller {
   }
 
   async store(req: Request , res: Response) {
-    await CategoryRepositories.create();
-    res.send('ok');
+    if (!req.body.icon ||  !req.body.name) {
+      res.send('Nâo pode aver campo em branco');
+      return;
+    }
+    const category =   await CategoryRepositories.create(req.body);
+    res.send(category);
   }
 
 }
