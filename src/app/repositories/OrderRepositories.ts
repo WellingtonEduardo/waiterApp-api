@@ -1,22 +1,33 @@
 import { Order } from '../models/Order';
+interface CreateProps{
+table: string;
+products: [
+  {
+    product: string;
+    quantity: number;
+  }
+]
+}
 
 class Repositories {
 
   async findAll() {
-    const orders = await Order.find();
+    const orders = await Order.find().populate('products.product').sort({createdAt: 1});
     return orders;
+
   }
 
-  async create() {
-    return 'ok';
+  async create(order:CreateProps) {
+    return  await Order.create(order);
+
   }
 
-  async update() {
-    return 'ok';
+  async update({orderId, status}: {orderId: string, status: string}) {
+    return await Order.findByIdAndUpdate(orderId, {status});
   }
 
-  async delete() {
-    return 'ok';
+  async delete(orderId: string) {
+    return await Order.findByIdAndDelete(orderId);
   }
 
 }

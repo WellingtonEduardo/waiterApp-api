@@ -1,8 +1,5 @@
-import { Category } from '../models/Category';
-
-
-
-
+import { Product } from '../models/Product';
+import { Category } from './../models/Category';
 class Repositories {
 
   async findAll() {
@@ -14,6 +11,12 @@ class Repositories {
     const category = await Category.create({icon,name});
     return category;
   }
+
+
+  async findByCategoryId(categoryId: string) {
+    return await Product.find().where('category').equals(categoryId);
+  }
+
 
 }
 

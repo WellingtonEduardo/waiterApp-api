@@ -5,19 +5,45 @@ import { CategoryRepositories } from '../repositories/CategoryRepositories';
 
 class Controller {
 
-  async index(req: Request , res: Response) {
-    const categories = await CategoryRepositories.findAll();
-    return res.json(categories);
+  async index(req: Request, res: Response) {
+    try {
+      const categories = await CategoryRepositories.findAll();
+      return res.json(categories);
+    } catch (error) {
+      res.status(500).json({ error});
+    }
   }
 
-  async store(req: Request , res: Response) {
-    if (!req.body.icon ||  !req.body.name) {
-      res.send('Nâo pode aver campo em branco');
-      return;
+
+  async store(req: Request, res: Response) {
+    try {
+      const {icon, name} = req.body;
+      if(!icon || !name){
+        return res.status(400).json({error: 'icon and name are required'});
+      }
+      const category = await CategoryRepositories.create({icon, name});
+      res.send(category);
+    } catch (error) {
+      res.status(500).json({ error});
     }
-    const category =   await CategoryRepositories.create(req.body);
-    res.send(category);
+
   }
+
+
+  async show(req: Request, res: Response) {
+    try {
+      const { categoryId } = req.params;
+
+      if (!categoryId) {
+        return res.status(400).json({error:'CategoryId is required'});
+      }
+      const product = await CategoryRepositories.findByCategoryId(categoryId);
+      res.json(product);
+    } catch (error) {
+      res.status(500).json({ error});
+    }
+  }
+
 
 }
 

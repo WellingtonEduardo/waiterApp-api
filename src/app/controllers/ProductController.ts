@@ -1,22 +1,42 @@
+import { ProductRepositories } from './../repositories/ProductRepositories';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from 'express';
-import { ProductRepositories } from '../repositories/ProductRepositories';
+
 
 
 class Controller {
 
-  async index(req: Request , res: Response) {
-    const products = await ProductRepositories.findAll();
-    return res.json(products);
+  async index(req: Request, res: Response) {
+    try {
+      const products = await ProductRepositories.findAll();
+      return res.json(products);
+    } catch (error) {
+      res.status(500).json({ error});
+    }
   }
 
-  async show(req: Request , res: Response) {
-    await ProductRepositories.findByCategoryId();
-    res.send(req.params.categoryId);
-  }
 
-  async store(req: Request , res: Response) {
-    return await ProductRepositories.create();
+  async store(req: Request, res: Response) {
+    try {
+      const { name, description, price, ingredients, category } = req.body;
+      const imagePath = req.file?.filename;
+
+      if (!name || !description || !price || !category || !imagePath) {
+        return res.status(404).json({ error: 'The fields are required'});
+      }
+      const product = {
+        name,
+        description,
+        price: Number(price),
+        ingredients: ingredients && JSON.parse(ingredients),
+        category,
+        imagePath
+      };
+      await ProductRepositories.create(product);
+      res.status(201);
+    } catch (error) {
+      res.status(500).json({ error});
+    }
   }
 
 }
