@@ -22,7 +22,7 @@ class Controller {
         return res.status(404).json({error: 'Table and products fields are required!'});
       }
       await OrderRepositories.create({table , products});
-      res.status(201);
+      res.status(201).send('success');
     } catch (error) {
       res.status(500).json({ error});
     }
@@ -38,7 +38,7 @@ class Controller {
         return res.status(404).json({error: 'OrderId and status fields are required!'});
       }
       await OrderRepositories.update({orderId, status});
-      res.status(200);
+      res.status(200).send('success');
     } catch (error) {
       res.status(500).json({ error});
     }
@@ -53,7 +53,7 @@ class Controller {
       }
 
       await OrderRepositories.delete(orderId);
-      res.status(204).send('ok');
+      res.status(204).send('success');
     } catch (error) {
       res.status(500).json({ error});
     }

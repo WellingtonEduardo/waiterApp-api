@@ -9,7 +9,7 @@ class Controller {
   async index(req: Request, res: Response) {
     try {
       const products = await ProductRepositories.findAll();
-      return res.json(products);
+      res.json(products);
     } catch (error) {
       res.status(500).json({ error});
     }
@@ -33,7 +33,9 @@ class Controller {
         imagePath
       };
       await ProductRepositories.create(product);
-      res.status(201);
+
+      res.status(201).send('success');
+
     } catch (error) {
       res.status(500).json({ error});
     }

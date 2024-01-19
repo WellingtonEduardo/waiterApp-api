@@ -21,8 +21,9 @@ class Controller {
       if(!icon || !name){
         return res.status(400).json({error: 'icon and name are required'});
       }
-      const category = await CategoryRepositories.create({icon, name});
-      res.send(category);
+      await CategoryRepositories.create({icon, name});
+
+      res.status(201).send('success');
     } catch (error) {
       res.status(500).json({ error});
     }
