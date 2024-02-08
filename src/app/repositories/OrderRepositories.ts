@@ -18,7 +18,7 @@ class Repositories {
   }
 
   async create(order:CreateProps) {
-    return  await Order.create(order);
+    return  (await Order.create(order)).populate('products.product');
 
   }
 
